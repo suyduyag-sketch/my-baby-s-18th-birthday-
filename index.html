@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 18th Birthday Aprill</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #ff69b4;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            max-width: 414px;
+            margin: 0 auto;
+            background: #ff69b4;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Video Section */
+        .video-section {
+            position: relative;
+            width: 100%;
+            height: 65vh;
+            overflow: hidden;
+        }
+
+        .video-section video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Gradient Overlay */
+        .video-fade {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(255, 105, 180, 0.3) 20%,
+                rgba(255, 105, 180, 0.6) 40%,
+                rgba(255, 105, 180, 0.9) 70%,
+                #ff69b4 100%
+            );
+            pointer-events: none;
+        }
+
+        /* Player Section */
+        .player-section {
+            background: transparent;
+            padding: 0 24px;
+            margin-top: -18vh;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Centered Title */
+        .centered-title {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px 0;
+        }
+
+        .centered-title h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 8px;
+        }
+
+        .centered-title p {
+            font-size: 16px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 16px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 52%;
+            background: #fff;
+            border-radius: 2px;
+        }
+
+        .progress-handle {
+            position: absolute;
+            left: 52%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 6px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.65);
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 0 8px;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .control-btn.shuffle svg,
+        .control-btn.repeat svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .control-btn.prev svg,
+        .control-btn.next svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .play-btn {
+            width: 52px;
+            height: 52px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .play-btn svg {
+            width: 22px;
+            height: 22px;
+            color: #ff69b4;
+            margin-left: 2px;
+        }
+
+        /* Secondary Controls */
+        .secondary-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4px;
+            margin-bottom: 20px;
+        }
+
+        .secondary-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .secondary-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Content Cards */
+        .content-cards {
+            background: transparent;
+            padding: 0 16px 20px;
+        }
+
+        /* About Artist Section - NEW STYLE WITH VIDEO BACKGROUND */
+        .about-artist {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .about-artist-video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .about-artist-overlay {
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(to bottom, 
+                transparent 0%,
+                rgba(0,0,0,0.3) 30%,
+                rgba(0,0,0,0.6) 60%,
+                rgba(0,0,0,0.8) 100%
+            );
+        }
+
+        .about-header {
+            padding: 14px 16px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            position: relative;
+            z-index: 2;
+        }
+
+        .artist-video-spacer {
+            height: 120px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .artist-info {
+            padding: 14px 16px 16px;
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 105, 180, 0.85);
+            backdrop-filter: blur(10px);
+        }
+
+        .artist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .artist-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .monthly-listeners {
+            font-size: 13px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 10px;
+        }
+
+        .artist-bio {
+            font-size: 13px;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.95);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .see-more {
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        /* Gallery Section */
+        .explore-section {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .explore-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: #fff;
+        }
+
+        .explore-grid {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+
+        .explore-card {
+            min-width: 120px;
+            height: 120px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .explore-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Credits Section */
+        .credits-section {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .credits-section::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .credits-section::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+        }
+
+        .custom-paragraph {
+            font-size: 14px;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.95);
+        }
+
+        /* Live Events Section */
+        .live-events {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .live-events-header {
+            padding: 14px 16px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .events-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .events-info {
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .events-details h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 3px;
+            color: #fff;
+        }
+
+        .events-details p {
+            font-size: 13px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .find-tickets {
+            padding: 7px 18px;
+            border: 1px solid rgba(255,255,255,0.5);
+            background: transparent;
+            color: #fff;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Scrollbar hide */
+        .explore-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* FULL ARTIST PAGE STYLES */
+        .full-artist-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            height: 100vh;
+            background: #ff69b4;
+            z-index: 200;
+            overflow-y: auto;
+        }
+
+        .full-artist-page.active {
+            display: block;
+        }
+
+        .artist-page-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .back-btn {
+            width: 32px;
+            height: 32px;
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .artist-page-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-left: 12px;
+            color: #fff;
+        }
+
+        .artist-page-content {
+            padding: 0 16px 100px;
+        }
+
+        .artist-hero-video {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .artist-stats {
+            margin-bottom: 24px;
+        }
+
+        .monthly-listeners-big {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #fff;
+        }
+
+        .monthly-listeners-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.8);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .full-bio {
+            font-size: 14px;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 20px;
+        }
+
+        .full-bio p {
+            margin-bottom: 16px;
+        }
+
+        /* GALLERY PAGE STYLES */
+        .gallery-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            height: 100vh;
+            background: #ff69b4;
+            z-index: 200;
+            overflow-y: auto;
+        }
+
+        .gallery-page.active {
+            display: block;
+        }
+
+        .gallery-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .gallery-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-left: 12px;
+            color: #fff;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 12px;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Music -->
+    <audio id="bgMusic" loop style="display:none;">
+        <source src="https://www.dropbox.com/scl/fi/loqh66xlkgtyf7zy1f8ts/9784317f1cd7434b20d8e96e2aceffd2.mp4?rlkey=rz3yyi8h3j36pzpt459ip8xf8&st=rgir48sh&dl=1" type="audio/mp4">
+    </audio>
+
+
+
+
+    <div class="app-container" id="mainPage">
+        <!-- Video Section -->
+        <div class="video-section">
+            <video autoplay loop muted playsinline>
+                <source src="https://www.dropbox.com/scl/fi/xketi5eqs5la5ydq68ijw/snaptik_7451933373750070550_hd.mp4?rlkey=3swp4vmw4dd958jvkp1l2ci6c&st=rbo54h77&dl=1" type="video/mp4">
+            </video>
+            <div class="video-fade"></div>
+        </div>
+
+        <!-- Player Section -->
+        <div class="player-section">
+            <!-- Centered Title -->
+            <div class="centered-title">
+                <h1>Happy 18th Birthday Aprill</h1>
+                <p></p>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                    <div class="progress-handle"></div>
+                </div>
+                <div class="time-display">
+                    <span>1:57</span>
+                    <span>3:09</span>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <button class="control-btn shuffle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l-5 5M4 4l5 5"/>
+                    </svg>
+                </button>
+                <button class="control-btn prev">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                    </svg>
+                </button>
+                <button class="play-btn">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="5 3 19 12 5 21 5 3"/>
+                    </svg>
+                </button>
+                <button class="control-btn next">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                    </svg>
+                </button>
+                <button class="control-btn repeat">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 01-4 4H3"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Secondary Controls -->
+            <div class="secondary-controls">
+                <button class="secondary-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                        <line x1="12" y1="18" x2="12.01" y2="18"/>
+                    </svg>
+                </button>
+                <div style="display: flex; gap: 20px;">
+                    <button class="secondary-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="18" cy="5" r="3"/>
+                            <circle cx="6" cy="12" r="3"/>
+                            <circle cx="18" cy="19" r="3"/>
+                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                        </svg>
+                    </button>
+                    <button class="secondary-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="8" y1="6" x2="21" y2="6"/>
+                            <line x1="8" y1="12" x2="21" y2="12"/>
+                            <line x1="8" y1="18" x2="21" y2="18"/>
+                            <line x1="3" y1="6" x2="3.01" y2="6"/>
+                            <line x1="3" y1="12" x2="3.01" y2="12"/>
+                            <line x1="3" y1="18" x2="3.01" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Cards -->
+        <div class="content-cards">
+            <!-- About the Artist with Video Background -->
+            <div class="about-artist">
+                <video id="aboutVideo" class="about-artist-video-bg" autoplay loop muted playsinline>
+                    <source src="https://www.dropbox.com/scl/fi/8siofab5e90qmevdt19vd/Messenger_creation_8E8FBD43-E4C8-4F06-88F4-685DBE524A0A.mp4?rlkey=u46lu0x0zyla4my7ia2sjqict&st=3tnqjbjb&dl=1" type="video/mp4">
+                </video>
+                <div class="about-artist-overlay">
+                    <div class="about-header">Wish card</div>
+                    <div class="artist-video-spacer"></div>
+                    <div class="artist-info">
+                        <div class="artist-header">
+                            <div class="artist-name">Happy 18th Birthday</div>
+                        </div>
+                        <div class="monthly-listeners"></div>
+                        <div class="artist-bio">
+                            Bisan wala na ta nag storya karon, syempre makahuna-huna gihapon ko nimo today kay di man jud malikayan nga ma-remember nako... <span class="see-more" onclick="showFullArtistPage()">see more</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Section -->
+            <div class="explore-section">
+                <div class="explore-title">My treasure trove</div>
+                <div class="explore-grid">
+                    <div class="explore-card" onclick="showGalleryPage()">
+                        <img src="https://www.dropbox.com/scl/fi/sbq419ltn5mb0kxj62c3a/1769306714131.jpg?rlkey=nydfexfwh8kbv2oki70qicwy8&st=zhja0wd4&dl=1" alt="Gallery 1">
+                    </div>
+                    <div class="explore-card" onclick="showGalleryPage()">
+                        <img src="https://www.dropbox.com/scl/fi/mgeyi3sfva1gf6jv0haht/1769327695642.jpg?rlkey=9p5dbcug0peo2y8jz6oqktjeh&st=orfqwpjm&dl=1" alt="Gallery 2">
+                    </div>
+                    <div class="explore-card" onclick="showGalleryPage()">
+                        <img src="https://www.dropbox.com/scl/fi/9otosb405w4l6glbc61nf/1769584310447.jpg?rlkey=c9809ze77sdp0jsz4teoxn9p4&st=zlbnk62i&dl=1" alt="Gallery 3">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Credits Section -->
+            <div class="credits-section">
+                <div class="custom-paragraph">
+                    </div>
+                if ever gusto nimog ka istorya, ayaw jud ka hesitate nga mo chat or mo tawag nako ha naa ra gihapon nimo akong number, basin gani gi save na nimo as longanisa seller HAHAHA. pero bitaw, seryoso, diba sauna ana man ko nimo nga kung naa kay problema, gi away ka or ma feel nimo nga murag wala’y mo laban sa imoha, ingna lang ko im still your kakampi gihapon. dili nimo kailangan solohon tanan kay naa ra ko, okay?
+            </div>
+
+            <!-- Live Events -->
+            <div class="live-events" style="position: relative; border-radius: 12px; overflow: hidden;">
+                <img class="events-image" src="https://www.dropbox.com/scl/fi/9y7vxnaf16skyg89f310l/Screenshot_20260427-211554.jpg?rlkey=lh7ehp8k45fdv42albkcyvwdg&st=ti5c8mac&dl=1" alt="Live event" style="width: 100%; height: 220px; object-fit: cover; display: block;">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 16px; background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.4) 60%, transparent 100%); display: flex; justify-content: space-between; align-items: flex-end;">
+                    <div class="events-details">
+                        <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 3px; color: #fff;">Fav. bear nimo</h4>
+                        <p style="font-size: 13px; color: rgba(255,255,255,0.85);">Apr 11 - May 21</p>
+                        <p style="font-size: 12px; margin-top: 2px; color: rgba(255,255,255,0.7);">virtual bear lang sa ha</p>
+                    </div>
+                    <a href="https://www.facebook.com/quint.yap" target="_blank" style="text-decoration: none;"><button class="find-tickets" style="padding: 7px 18px; border: 1px solid rgba(255,255,255,0.5); background: transparent; color: #fff; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer;">Click me</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FULL ARTIST PAGE -->
+    <div class="full-artist-page" id="fullArtistPage">
+        <div class="artist-page-header">
+            <button class="back-btn" onclick="hideFullArtistPage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <div class="artist-page-title">Happy 18th Birthday</div>
+        </div>
+
+        <div class="artist-page-content">
+            <video id="artistHeroVideo" class="artist-hero-video" muted playsinline>
+                <source src="https://www.dropbox.com/scl/fi/8siofab5e90qmevdt19vd/Messenger_creation_8E8FBD43-E4C8-4F06-88F4-685DBE524A0A.mp4?rlkey=u46lu0x0zyla4my7ia2sjqict&st=3tnqjbjb&dl=1" type="video/mp4">
+            </video>
+
+            <div class="artist-stats">
+                <div class="monthly-listeners-big">18</div>
+                <div class="monthly-listeners-label">Years of Awesomeness</div>
+            </div>
+
+            <div class="full-bio">
+                <p>Bisan wala na ta nag storya karon, syempre
+makahuna-huna gihapon ko nimo today kay di man jud malikayan nga ma remember nako imong birthday. funny lang kaayo kay out of all things, imong birthday jud ang dili nako malimtan, dili lang ikaw, pati imong favorite colors. maybe because of the memories we once shared, mga simple moments nga until now madala gihapon nako. I just want you to know nga im genuinely grateful for those times, kay somehow naging part jud ka sa akong life. i don't know how things are going for you now, but I truly hope you're happy kanang genuine nga happiness ha, dili lang temporary. you deserve all the good things nga moabot sa imong life, especially now nga 18 naka, new chapter na pud ni nimo. daghan na kag ma discover, pero ayaw lang sa ug inom² hahahaha. pero seryoso, i hope you continue becoming the person nga gusto jud nimo. from a distance nalang ko mo greet hehe,  gi adto baya ko diri sa balay, so naka huna²  pud ko mo adto dira, pero gi respeto nalang nako kung unsa man naa karon between us. tinood diay ilang ingon nga love is not proud, pero kay gipanghinambog man tika sauna, awa unsa nata karon hahaha. So dili na nako i complicate ang tanan, pero that doesn't mean nga wala koy well wishes para nimo.
+importante kaayo ka sa akoa, and a part of me still cares about you more than I can explain. I wish you the best in everything sa imong dreams nga imong na share sa akoa, and I know makab ot jud nimo na tanan</p>
+                <p>and again' happy 18th birthday prill</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- GALLERY PAGE -->
+    <div class="gallery-page" id="galleryPage">
+        <div class="gallery-header">
+            <button class="back-btn" onclick="hideGalleryPage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <div class="gallery-title">Gallery</div>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://www.dropbox.com/scl/fi/sbq419ltn5mb0kxj62c3a/1769306714131.jpg?rlkey=nydfexfwh8kbv2oki70qicwy8&st=zhja0wd4&dl=1" alt="Gallery 1">
+            </div>
+            <div class="gallery-item">
+                <img src="https://www.dropbox.com/scl/fi/mgeyi3sfva1gf6jv0haht/1769327695642.jpg?rlkey=9p5dbcug0peo2y8jz6oqktjeh&st=orfqwpjm&dl=1" alt="Gallery 2">
+            </div>
+            <div class="gallery-item">
+                <img src="https://www.dropbox.com/scl/fi/9otosb405w4l6glbc61nf/1769584310447.jpg?rlkey=c9809ze77sdp0jsz4teoxn9p4&st=zlbnk62i&dl=1" alt="Gallery 3">
+            </div>
+            <div class="gallery-item">
+                <img src="https://www.dropbox.com/scl/fi/1fm6faovpb05tb3mikp8g/Messenger_creation_7BC4D4D8-761A-4600-9D55-10814B9DC6EB.jpeg?rlkey=tpsmyzlnx2faovtji7od0wu77&st=b8hezhs9&dl=1" alt="Gallery 4">
+            </div>
+            <div class="gallery-item">
+                <img src="https://www.dropbox.com/scl/fi/3192bt1duuu5nezp73czz/Messenger_creation_60EFA882-1500-48F5-8E7B-2982E3931AD7.jpeg?rlkey=z582d6w4eglizloiqm4pnxg3g&st=n39m7dz4&dl=1" alt="Gallery 5">
+            </div>
+            <div class="gallery-item">
+                <img src="https://www.dropbox.com/scl/fi/atfr93i4nz3lq1sin71uj/Messenger_creation_564DD7B7-D109-4E86-8257-2247A6583381.jpeg?rlkey=as9k1l6c5215tvuszaddlpr58&st=3fa23pcp&dl=1" alt="Gallery 6">
+            </div>
+            <div class="gallery-item">
+                <img src="https://www.dropbox.com/scl/fi/f6yg2cc2cd2jt6vioagnj/Messenger_creation_2714390B-9521-4723-8576-DF2FA061CE2D.jpeg?rlkey=bm6pbwqfphljg2pjf6hxbc53b&st=w7az8thx&dl=1" alt="Gallery 7">
+            </div>
+            <div class="gallery-item">
+                <img src="https://www.dropbox.com/scl/fi/r9eu5ffdufz37w5c8ooap/Messenger_creation_A35415F7-0776-44D3-91F5-4DAA95B28C5C.jpeg?rlkey=sqitax3eeiw9yce2bnwdcpgr2&st=ynplu25n&dl=1" alt="Gallery 8">
+            </div>
+            <div class="gallery-item">
+                <img src="https://www.dropbox.com/scl/fi/zdnk7l2or52zpg9322ybk/1770857472393.jpg?rlkey=iwl3bf5zpvtzyg5bt242me1si&st=mwgcm2sq&dl=1" alt="Gallery 9">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const aboutVideo = document.getElementById('aboutVideo');
+        const artistHeroVideo = document.getElementById('artistHeroVideo');
+        let savedTime = 0;
+
+        function showFullArtistPage() {
+            savedTime = aboutVideo.currentTime;
+            document.getElementById('fullArtistPage').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            artistHeroVideo.currentTime = savedTime;
+            artistHeroVideo.play();
+        }
+
+        function hideFullArtistPage() {
+            savedTime = artistHeroVideo.currentTime;
+            document.getElementById('fullArtistPage').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            aboutVideo.currentTime = savedTime;
+            aboutVideo.play();
+        }
+
+        function showGalleryPage() {
+            document.getElementById('galleryPage').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideGalleryPage() {
+            document.getElementById('galleryPage').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+
+    <script>
+        (function() {
+            var musicStarted = false;
+            var bgMusic = document.getElementById('bgMusic');
+
+            function startMusic() {
+                if (!musicStarted && bgMusic) {
+                    bgMusic.play().then(function() {
+                        musicStarted = true;
+                    }).catch(function(e) {
+                        console.log('Audio play failed:', e);
+                    });
+                }
+            }
+
+            // Start on first tap/click
+            document.addEventListener('click', startMusic, { once: true });
+            document.addEventListener('touchstart', startMusic, { once: true });
+        })();
+    </script>
+</body>
+</html>
